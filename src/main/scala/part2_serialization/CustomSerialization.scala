@@ -9,6 +9,7 @@ import spray.json._
 case class Person(name: String, age: Int)
 
 class PersonSerializer extends Serializer {
+
   val SEPARATOR = "//"
 
   override def identifier: Int = 74238
@@ -18,7 +19,8 @@ class PersonSerializer extends Serializer {
       // [John||32]
       println(s"Serializing $person")
       s"[$name$SEPARATOR$age]".getBytes()
-    case _ => throw  new IllegalArgumentException("only persons are supported for this serializer")
+
+    case _ => throw new IllegalArgumentException("only persons are supported for this serializer")
   }
 
   override def fromBinary(bytes: Array[Byte], manifest: Option[Class[_]]): AnyRef = {
@@ -60,6 +62,7 @@ class PersonJsonSerializer extends Serializer with DefaultJsonProtocol {
 }
 
 object CustomSerialization_local extends App {
+
   val config = ConfigFactory.parseString(
     """
       |akka.remote.artery.canonical.port = 2551

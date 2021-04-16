@@ -7,5 +7,4 @@ class SimpleActor extends Actor with ActorLogging {
     case m =>
       log.info(s"Received: $m from ${sender()}")
   }
-
 }
