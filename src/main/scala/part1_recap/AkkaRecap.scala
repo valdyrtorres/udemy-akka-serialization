@@ -6,8 +6,6 @@ import akka.persistence.PersistentActor
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 
-import scala.collection.immutable
-
 class SimpleActor extends Actor with ActorLogging with Stash {
   override def receive: Receive = {
     case "createChild" =>
@@ -37,7 +35,7 @@ class SimpleActor extends Actor with ActorLogging with Stash {
   }
 }
 
-class SimplePersistentActor extends PersistentActor with ActorLogging {
+class SimplePersistentActor extends  PersistentActor with ActorLogging {
   override def persistenceId: String = "simple-persistent-actor"
 
   override def receiveCommand: Receive = {
@@ -61,10 +59,10 @@ object AkkaRecap extends App {
   // #2: sending messages
   actor ! "hello"
   /*
-    - messages are sent asynchronously
-    - many actors (in the millions) can share a few dozen threads
-    - each message is processed/handled ATOMICALLY
-    - no need for locks
+   - messages are sent asynchronously
+   - many actors (in te millions) can share a few dozen threads
+   - each message is processed/handled ATOMICALLY
+   - no need for locks
    */
 
   // changing actor behavior + stashing
@@ -82,9 +80,8 @@ object AkkaRecap extends App {
   // configure Akka infrastructure: dispatchers, routers, mailboxes
 
   // schedulers
-  import system.dispatcher
-
   import scala.concurrent.duration._
+  import system.dispatcher
   system.scheduler.scheduleOnce(2 seconds) {
     actor ! "delayed happy birthday!"
   }
@@ -130,5 +127,5 @@ object AkkaRecap_Persistence extends App {
   val simplePersistentActor = system.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
 
   simplePersistentActor ! "Hello, persistent actor!"
-  simplePersistentActor ! "I hope you're persisting what I say..."
+  simplePersistentActor ! "i hope you're persisting what I say..."
 }

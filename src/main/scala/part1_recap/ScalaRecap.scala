@@ -1,5 +1,6 @@
 package part1_recap
 
+import scala.List
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
@@ -10,6 +11,7 @@ object ScalaRecap extends App {
     // code
     if (x > 4) 42 else 65
   }
+
   // instructions vs expressions
   // types + type inference
 
@@ -33,10 +35,10 @@ object ScalaRecap extends App {
   anIncrementer(1)
 
   List(1,2,3).map(anIncrementer)
-  // HOF: flatMap, filter
-  // for-comprehensions
+  // HOF - Higher order functions: flatMap, filter
+  // for-comprehensioms
 
-  // Monads: Option, Try
+  // Monads:Option, Try
 
   // Pattern matching!
   val unknown: Any = 2
@@ -54,17 +56,17 @@ object ScalaRecap extends App {
   }
 
   /**
-    * Scala advanced
-    */
+   * Scala advanced
+   */
 
   // multithreading
-
   import scala.concurrent.ExecutionContext.Implicits.global
   val future = Future {
     // long computation here
     // executed on SOME other thread
     42
   }
+
   // map, flatMap, filter + other niceties e.g. recover/recoverWith
 
   future.onComplete {
@@ -82,15 +84,15 @@ object ScalaRecap extends App {
   // type aliases
   type AkkaReceive = PartialFunction[Any, Unit]
   def receive: AkkaReceive = {
-    case 1 => println("hello!")
-    case _ => println("confused...")
+    case 1 => println("hello")
+    case _ => println(("confused..."))
   }
 
   // Implicits!
   implicit val timeout = 3000
   def setTimeout(f: () => Unit)(implicit timeout: Int) = f()
 
-  setTimeout(() => println("timeout"))// other arg list injected by the compiler
+  setTimeout(() => println("timeout")) // other arg list injected by the compiler
 
   // conversions
   // 1) implicit methods
@@ -99,6 +101,7 @@ object ScalaRecap extends App {
   }
 
   implicit def fromStringToPerson(name: String) = Person(name)
+
   "Peter".greet
   // fromStringToPerson("Peter").greet
 
@@ -114,7 +117,7 @@ object ScalaRecap extends App {
   implicit val numberOrdering: Ordering[Int] = Ordering.fromLessThan(_ > _)
   List(1,2,3).sorted //(numberOrdering) => List(3,2,1)
 
-  // imported scope
+  // imported Scope
 
   // companion objects of the types involved in the call
   object Person {
@@ -122,7 +125,5 @@ object ScalaRecap extends App {
   }
 
   List(Person("Bob"), Person("Alice")).sorted // (Person.personOrdering)
-  // => List(Person("Alice"), Person("Bob"))
-
-
+  // => List(person("Alice"), Person("Bob"))
 }
